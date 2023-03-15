@@ -4,7 +4,7 @@
     if ($_SERVER["REQUEST_METHOD"]== "POST") {
         $firstname = verifyInput($_POST["firstname"]);
         $name = verifyInput($_POST["name"]);
-        $email = verufyInput($_POST["email"]);
+        $email = verifyInput($_POST["email"]);
         $phone = verifyInput($_POST["phone"]);
         $message = verifyInput($_POST["message"]);
     }
@@ -14,7 +14,7 @@
         $var = stripslashes($var);
         $var = htmlspecialchars($var);
 
-        return $var
+        return $var;
     }
 
 ?>
