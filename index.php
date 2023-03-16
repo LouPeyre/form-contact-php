@@ -1,12 +1,67 @@
 <?php
 
     $firstname = $name = $email = $phone = $message = "";
+    $firstnameError = $nameError = $emailError = $phoneError = $messageError = "";
+    $isSucces = false;
+    $emailTo = "louis.peyredieu@gmail.com";
+
     if ($_SERVER["REQUEST_METHOD"]== "POST") {
         $firstname = verifyInput($_POST["firstname"]);
         $name = verifyInput($_POST["name"]);
         $email = verifyInput($_POST["email"]);
         $phone = verifyInput($_POST["phone"]);
         $message = verifyInput($_POST["message"]);
+        $isSucces = true;
+        $emailText = "";
+
+        if(empty($firstname)){
+            $firstnameError = "Je veux connaitre ton prénom";
+            $isSucces = false;
+        }
+        else{
+            $emailText .= "Firstname : $firstname\n";
+        }
+        if(empty($name)){
+            $nameError = "Je veux connaitre ton nom";
+            $isSucces = false;
+        }
+        else{
+            $emailText .= "Name : $name\n";
+        }
+        if(!isEmail($email)){
+            $emailError = "J'aimerais votre Email";
+            $isSucces = false;
+        }
+        else{
+            $emailText .= "Email : $email\n";
+        }
+        if(!isPhone($phone)){
+            $phoneError = "Que des chiffres et espaces svp";
+            $isSucces = false;
+        }
+        else{
+            $emailText .= "Phone : $phone\n";
+        }
+        if(empty($message)){
+            $messageError = "Que veux-tu me dire ?";
+            $isSucces = false;
+        }
+        else{
+            $emailText .= "Message : $message\n";
+        }
+        if($isSucces){
+            $headers = "From : $firstname $name <$email> \r\n Reply-To: $email";
+            mail($emailTo, "un message de votre site", $emailText, $headers);
+            $firstname = $name = $email = $phone = $message = "";
+        }
+    }
+
+    function isPhone($var){
+        return preg_match("/^[0-9 ]*$/", $var);
+    }
+
+    function isEmail($var){
+        return filter_var($var, FILTER_VALIDATE_EMAIL);
     }
 
     function verifyInput($var){
@@ -48,28 +103,28 @@
                         <div class="row">
                             <div class="col-lg-6">
                                 <label for="firstname" class="form-label">Prénom <span class="blue">*</span></label>
-                                <input id="firstname" type="text" required name="firstname" class="form-control" placeholder="Votre prénom" value="<?php echo($firstname);?>">
-                                <p class="comments">Message d'erreur</p>
+                                <input id="firstname" type="text" name="firstname" class="form-control" placeholder="Votre prénom" value="<?php echo($firstname);?>">
+                                <p class="comments"><?php echo $firstnameError; ?></p>
                             </div>
                             <div class="col-lg-6">
                                 <label for="name" class="form-label">Nom <span class="blue">*</span></label>
                                 <input id="name" type="text" name="name" class="form-control" placeholder="Votre Nom" value="<?php echo($name);?>">
-                                <p class="comments">Message d'erreur</p>
+                                <p class="comments"><?php echo $nameError; ?></p>
                             </div>
                             <div class="col-lg-6">
                                 <label for="email" class="form-label">Email <span class="blue">*</span></label>
-                                <input id="email" type="email" name="email" class="form-control" placeholder="Votre Email" value="<?php echo($email);?>">
-                                <p class="comments">Message d'erreur</p>
+                                <input id="email" type="text" name="email" class="form-control" placeholder="Votre Email" value="<?php echo($email);?>">
+                                <p class="comments"><?php echo $emailError ?></p>
                             </div>
                             <div class="col-lg-6">
                                 <label for="phone" class="form-label">Téléphone</label>
                                 <input id="phone" type="tel" name="phone" class="form-control" placeholder="Votre Téléphone" value="<?php echo($phone);?>">
-                                <p class="comments">Message d'erreur</p>
+                                <p class="comments"><?php echo $phoneError ?></p>
                             </div>
                             <div>
                                 <label for="message" class="form-label">Message <span class="blue">*</span></label>
                                 <textarea id="message" name="message" class="form-control" placeholder="Votre Message" rows="4"><?php echo($message);?></textarea>
-                                <p class="comments">Message d'erreur</p>
+                                <p class="comments"><?php echo $messageError ?></p>
                             </div>
                             <div>
                                 <p class="blue"><strong>* Ces informations sont requises.</strong></p>
@@ -78,7 +133,7 @@
                                 <input type="submit" class="button1" value="Envoyer">
                             </div>    
                         </div>
-                        <p class="thank-you">Votre message a bien été envoyé. Merci de m'avoir contacté :)</p>
+                        <p class="thank-you" style="display: <?php if($isSucces) echo 'block'; else echo 'none'; ?>">Votre message a bien été envoyé. Merci de m'avoir contacté.</p>
                     </form>
 
                 </div>
