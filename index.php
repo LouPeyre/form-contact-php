@@ -48,7 +48,7 @@
                         <div class="row">
                             <div class="col-lg-6">
                                 <label for="firstname" class="form-label">Prénom <span class="blue">*</span></label>
-                                <input id="firstname" type="text" name="firstname" class="form-control" placeholder="Votre prénom" value="<?php echo($firstname);?>">
+                                <input id="firstname" type="text" required name="firstname" class="form-control" placeholder="Votre prénom" value="<?php echo($firstname);?>">
                                 <p class="comments">Message d'erreur</p>
                             </div>
                             <div class="col-lg-6">
@@ -58,12 +58,12 @@
                             </div>
                             <div class="col-lg-6">
                                 <label for="email" class="form-label">Email <span class="blue">*</span></label>
-                                <input id="email" type="text" name="email" class="form-control" placeholder="Votre Email" value="<?php echo($email);?>">
+                                <input id="email" type="email" name="email" class="form-control" placeholder="Votre Email" value="<?php echo($email);?>">
                                 <p class="comments">Message d'erreur</p>
                             </div>
                             <div class="col-lg-6">
                                 <label for="phone" class="form-label">Téléphone</label>
-                                <input id="phone" type="text" name="phone" class="form-control" placeholder="Votre Téléphone" value="<?php echo($phone);?>">
+                                <input id="phone" type="tel" name="phone" class="form-control" placeholder="Votre Téléphone" value="<?php echo($phone);?>">
                                 <p class="comments">Message d'erreur</p>
                             </div>
                             <div>
